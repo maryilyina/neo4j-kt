@@ -33,13 +33,27 @@ class NodeTests {
                 "hero" value true
             }
             val w = node("w", "Person") {}
-
-            n has relationship("r"){} to w
+            +n
+            +w
 
         } returns "p.name"
 
         println(req2)
 
+        class Restaurant(val name: String, val food: String, val cuisine: String)
+        val rest = Restaurant("Harakiri", "Sushi", "Japanese")
+
+        val req3 = create {
+            + node("rest", "Restaurant") {
+                "name" value rest.name
+                "food" value rest.food
+                "cuisine" value rest.cuisine
+            }
+        } returns "rest.name"
+
+        println(req3)
+
         println()
     }
 }
+
