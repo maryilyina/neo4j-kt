@@ -1,5 +1,8 @@
-class CreateStatement(val nodes: MutableList<Node>, val relationships: MutableList<Relationship>) {
-    var ret_val: String? = null
+abstract class Statement(private val nodes: MutableList<Node>,
+                         private val relationships: MutableList<Relationship>) {
+    abstract val statementName: String
+
+    var returnValue: String? = null
 
     override fun toString(): String {
         if (nodes.isEmpty() && relationships.isEmpty()) return ""
@@ -15,7 +18,7 @@ class CreateStatement(val nodes: MutableList<Node>, val relationships: MutableLi
             sb[sb.length - 1] = ' '
         }
 
-        if (!ret_val.isNullOrBlank()) sb.append(" RETURN $ret_val")
-        return "CREATE $sb"
+        if (!returnValue.isNullOrBlank()) sb.append(" RETURN $returnValue")
+        return "$statementName $sb"
     }
 }

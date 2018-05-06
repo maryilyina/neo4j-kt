@@ -3,7 +3,7 @@ class Node(val name: String?, val label: String?,
 
     override fun toString(): String {
         val sb = StringBuilder()
-        if (!name.isNullOrEmpty()) sb.append(name)
+        if (!name.isNullOrEmpty())  sb.append(name)
         if (!label.isNullOrEmpty()) sb.append(":$label")
         if (!attrs.isEmpty()) {
             sb.append(" {")
