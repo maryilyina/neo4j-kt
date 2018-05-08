@@ -3,7 +3,7 @@ class NodeTests {
         println("NODE TESTS")
 
         val req0 = create {
-            + node (label="Cat"){
+            + node(label="Cat"){
                 "type" value "home"
             }
         }
@@ -25,18 +25,15 @@ class NodeTests {
         println(req1)
 
         val req2 = create {
-            val n = node("p", "Person") {
+            + node("p", "Person") {
                 for (i in 1..3)
                     "child$i" value i
                 "name" value "Alex"
                 "age" value 1
                 "hero" value true
             }
-            val w = node("w", "Person") {}
-            +n
-            +w
-
-        } returns "p.name"
+            + node("w", "Person") {}
+        }
 
         println(req2)
 
@@ -49,11 +46,10 @@ class NodeTests {
                 "food" value rest.food
                 "cuisine" value rest.cuisine
             }
-        } returns "rest.name"
+        }
 
         println(req3)
 
         println()
     }
 }
-
