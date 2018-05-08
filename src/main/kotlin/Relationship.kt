@@ -4,23 +4,15 @@ class Relationship(private val name: String?, private val type: String?,
         const val DEFAULT_PATH_LENGTH = 1
         const val ANY = -1
     }
-    var nodeFrom: Node? = null
-    var nodeTo: Node? = null
-    var isDirected = true
-    var alias: String? = null
-
     var minHops = DEFAULT_PATH_LENGTH
     var maxHops = DEFAULT_PATH_LENGTH
-
-    var backRelationship: Relationship? = null
-    var backNodeFrom: Node? = null
 
     fun copy() = Relationship(name, type, attrs)
 
     private fun lengthCanBeOmitted() = (minHops == ANY && maxHops == ANY)
     private fun lengthIsSpecified() = (minHops != DEFAULT_PATH_LENGTH || maxHops != DEFAULT_PATH_LENGTH)
 
-    fun stringDescription(): String {
+    override fun toString(): String {
         val sb = StringBuilder()
         if (!name.isNullOrEmpty()) sb.append(name)
         if (!type.isNullOrEmpty()) sb.append(":$type")
@@ -44,17 +36,6 @@ class Relationship(private val name: String?, private val type: String?,
             sb.append("} ")
         }
         return if (!sb.isEmpty()) "[$sb]" else ""
-    }
-
-    override fun toString(): String {
-        val strRel = stringDescription()
-        val rel = if (isDirected) "-$strRel->" else "-$strRel-"
-
-        val pathAlias = if (!alias.isNullOrEmpty()) "$alias=" else ""
-        val backRel = if (backRelationship != null && backNodeFrom != null)
-            "${backRelationship?.stringDescription()}<-$backNodeFrom" else ""
-
-        return "$pathAlias$nodeFrom$rel$nodeTo$backRel"
     }
 
 }

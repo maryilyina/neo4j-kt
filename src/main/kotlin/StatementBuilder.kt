@@ -1,19 +1,22 @@
 open class StatementBuilder {
     val nodes = mutableListOf<Node>()
-    val relationships = mutableListOf<Relationship>()
+    val patterns = mutableListOf<Pattern>()
 
     operator fun Any.unaryPlus() { if (this is Node) nodes.add(this) }
 
-    private fun addToRelationships(rel: Relationship) {
-        if (rel.nodeFrom != null && rel.nodeTo != null) relationships.add(rel)
+    private fun addToPatterns(pattern: Pattern) {
+        if (pattern.nodeFrom != null && pattern.nodeTo != null) patterns.add(pattern)
     }
 
-    infix fun Node.has(rel: Relationship) = rel.apply { nodeFrom = this@has; addToRelationships(this) }
-    infix fun Relationship.to(n: Node)    = this.apply { nodeTo = n; addToRelationships(this) }
-    infix fun Relationship.from(n: Node)  = this.apply { nodeFrom = n; addToRelationships(this) }
+    infix fun Node.has(rel: Relationship) = Pattern(rel).apply { nodeFrom = this@has; addToPatterns(this) }
+    infix fun Relationship.from(n: Node)  = Pattern(this).apply { nodeFrom = n }
+    infix fun Pattern.to(n: Node)         = this.apply { nodeTo = n; addToPatterns(this) }
 
-    infix fun Relationship.between(node: Node) = from(node).apply { isDirected = false }
-    infix fun Relationship.and(node: Node)     = to(node).apply   { isDirected = false }
+    infix fun Relationship.to(n: Node)    = Pattern(this).apply { nodeTo = n }
+    infix fun Pattern.from(n: Node)       = this.apply { nodeFrom = n; addToPatterns(this) }
+
+    infix fun Relationship.between(node: Node) = this.from(node).apply { isDirected = false }
+    infix fun Pattern.and(node: Node)          = to(node).apply { isDirected = false }
 
     operator fun Relationship.get(lenRange: IntRange) = copy().apply {
         minHops = lenRange.start
@@ -28,10 +31,10 @@ open class StatementBuilder {
     infix fun Int.from(len: Int) = len..this
     infix fun Int.upTo(len: Int) = this..len
 
-    infix fun Relationship.named(s: String) = copy().apply { alias = s }
+    infix fun Pattern.named(s: String) = this.apply { alias = s }
 
-    infix fun Relationship.which(backRel: Relationship) = this.apply { backRelationship = backRel }
-    infix fun Relationship.by(backNode: Node) = this.apply { backNodeFrom = backNode }
+    infix fun Pattern.which(backRel: Relationship) = this.apply { backRelationship = backRel }
+    infix fun Pattern.by(backNode: Node) = this.apply { backNodeFrom = backNode }
 }
 
 infix fun Statement.returns(what: String) : Statement = this.apply { returnValue = what }

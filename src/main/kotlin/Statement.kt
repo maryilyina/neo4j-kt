@@ -1,11 +1,11 @@
 abstract class Statement(private val nodes: MutableList<Node>,
-                         private val relationships: MutableList<Relationship>) {
+                         private val patterns: MutableList<Pattern>) {
     abstract val statementName: String
 
     var returnValue: String? = null
 
     override fun toString(): String {
-        if (nodes.isEmpty() && relationships.isEmpty()) return ""
+        if (nodes.isEmpty() && patterns.isEmpty()) return ""
         val sb = StringBuilder()
 
         if (nodes.isNotEmpty()) {
@@ -13,8 +13,8 @@ abstract class Statement(private val nodes: MutableList<Node>,
             sb[sb.length - 1] = ' '
         }
 
-        if (relationships.isNotEmpty()) {
-            for (rel in relationships) sb.append("$rel,")
+        if (patterns.isNotEmpty()) {
+            for (rel in patterns) sb.append("$rel,")
             sb[sb.length - 1] = ' '
         }
 

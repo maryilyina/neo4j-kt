@@ -1,19 +1,19 @@
-class CreateStatement (nodes: MutableList<Node>, relationships: MutableList<Relationship>)
-    : Statement(nodes, relationships) {
+class CreateStatement (nodes: MutableList<Node>, patterns: MutableList<Pattern>)
+    : Statement(nodes, patterns) {
     override val statementName = "CREATE"
 }
 
-class MatchStatement (nodes: MutableList<Node>, relationships: MutableList<Relationship>)
-    : Statement(nodes, relationships) {
+class MatchStatement (nodes: MutableList<Node>, patterns: MutableList<Pattern>)
+    : Statement(nodes, patterns) {
     override val statementName = "MATCH"
 }
 
-class MergeStatement (nodes: MutableList<Node>, relationships: MutableList<Relationship>)
-    : Statement(nodes, relationships) {
+class MergeStatement (nodes: MutableList<Node>, patterns: MutableList<Pattern>)
+    : Statement(nodes, patterns) {
     override val statementName = "MERGE"
 }
 
-class OptionalMatchStatement (nodes: MutableList<Node>, relationships: MutableList<Relationship>)
-    : Statement(nodes, relationships) {
+class OptionalMatchStatement (nodes: MutableList<Node>, patterns: MutableList<Pattern>)
+    : Statement(nodes, patterns) {
     override val statementName = "OPTIONAL MATCH"
 }
