@@ -1,4 +1,4 @@
-class MatchTests {
+class DifferentTypesTests {
     fun perform() {
         println("DIFFERENT STATEMENTS TYPES TESTS")
         val req1 = create {

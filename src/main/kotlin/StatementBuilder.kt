@@ -36,6 +36,3 @@ open class StatementBuilder {
     infix fun Pattern.which(backRel: Relationship) = this.apply { backRelationship = backRel }
     infix fun Pattern.by(backNode: Node) = this.apply { backNodeFrom = backNode }
 }
-
-infix fun Statement.returns(what: String) : Statement = this.apply { returnValue = what }
-
