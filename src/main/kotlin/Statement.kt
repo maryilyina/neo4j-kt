@@ -1,10 +1,9 @@
 abstract class Statement(private val nodes: MutableList<Node>,
                          private val patterns: MutableList<Pattern>) {
     abstract val statementName: String
-    var queryText: String = ""
-    var returnValue: String? = null
+    var baseQuery = Query()
 
-    override fun toString() = "$queryText\n${stringify()}".trim()
+    override fun toString() = baseQuery.toString(this)
 
     fun stringify(): String {
         if (nodes.isEmpty() && patterns.isEmpty()) return ""
@@ -20,12 +19,11 @@ abstract class Statement(private val nodes: MutableList<Node>,
             sb[sb.length - 1] = ' '
         }
 
-        if (!returnValue.isNullOrBlank()) sb.append("\nRETURN $returnValue")
         return "$statementName $sb"
     }
 }
 
-operator fun Statement.plus(other: Statement) = other.also { it.queryText += "$queryText\n${stringify()}" }
+operator fun Statement.plus(other: Statement) = other.also { it.baseQuery = baseQuery.append(this) }
 
-infix fun Statement.returns(what: String) : Statement = this.apply { returnValue = what }
+infix fun Statement.returns(what: String) : Statement = this.apply { baseQuery.returnValue = what }
 
