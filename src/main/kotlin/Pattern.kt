@@ -1,6 +1,5 @@
-class Pattern(private val relationship: Relationship) {
-    var nodeFrom: Node? = null
-    var nodeTo: Node? = null
+class Pattern(private val relationship: Relationship,
+              var nodeFrom:  Node? = null, var nodeTo: Node? = null) {
     var isDirected = true
     var alias: String? = null
 

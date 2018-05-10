@@ -18,7 +18,7 @@ class MultipleClausesTests {
         } where {
             + ("n.age" lessThan 30)
         } and create {
-                node("a") {} has relationship("r", "RELTYPE") {} to node("b") {}
+                node("a") {} has relationship("r" , "RELTYPE") {} to node("b") {}
         } returns "type(r)"
 
         println(req3)

@@ -4,9 +4,11 @@ abstract class UnitBuilder<out T> {
     infix fun String.value(v: Any) { data[this] =  v }
 }
 
+@QueryContext
 class NodeBuilder : UnitBuilder<Node>() {
     override fun build(name: String?, label: String?) = Node(name, label, data)
 }
+@QueryContext
 class RelationshipBuilder : UnitBuilder<Relationship>() {
     override fun build(name: String?, type: String?) = Relationship(name, type, data)
 }
