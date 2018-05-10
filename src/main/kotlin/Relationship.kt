@@ -1,33 +1,16 @@
 class Relationship(private val name: String?, private val type: String?,
                    private val attrs: MutableMap<String, Any>) {
-    companion object Ranges {
-        const val DEFAULT_PATH_LENGTH = 1
-        const val ANY = -1
-    }
-    var minHops = DEFAULT_PATH_LENGTH
-    var maxHops = DEFAULT_PATH_LENGTH
-
     fun copy() = Relationship(name, type, attrs)
 
-    private fun lengthCanBeOmitted() = (minHops == ANY && maxHops == ANY)
-    private fun lengthIsSpecified() = (minHops != DEFAULT_PATH_LENGTH || maxHops != DEFAULT_PATH_LENGTH)
+    private var pathLength = PathLength()
+    fun setMinLength(len: Int) { pathLength.minLength = len }
+    fun setMaxLength(len: Int) { pathLength.maxLength = len }
 
     override fun toString(): String {
         val sb = StringBuilder()
         if (!name.isNullOrEmpty()) sb.append(name)
         if (!type.isNullOrEmpty()) sb.append(":$type")
-
-        if (lengthIsSpecified()) {
-            sb.append('*')
-            if (!lengthCanBeOmitted()) {
-                if (minHops == maxHops) sb.append(minHops)
-                else {
-                    if (minHops != DEFAULT_PATH_LENGTH && minHops != ANY) sb.append(minHops)
-                    sb.append("..")
-                    if (maxHops != ANY) sb.append(maxHops)
-                }
-            }
-        }
+        if (pathLength.isSpecified()) sb.append("*$pathLength")
 
         if (!attrs.isEmpty()) {
             sb.append(" {")
@@ -38,4 +21,28 @@ class Relationship(private val name: String?, private val type: String?,
         return if (!sb.isEmpty()) "[$sb]" else ""
     }
 
+    class PathLength {
+        companion object Ranges {
+            const val DEFAULT_PATH_LENGTH = 1
+            const val ANY = -1
+        }
+        var minLength = DEFAULT_PATH_LENGTH
+        var maxLength = DEFAULT_PATH_LENGTH
+
+        override fun toString(): String {
+            val sb = StringBuilder()
+            if (!canBeOmitted()) {
+                if (minLength == maxLength) sb.append(minLength)
+                else {
+                    if (minLength != DEFAULT_PATH_LENGTH && minLength != ANY) sb.append(minLength)
+                    sb.append("..")
+                    if (maxLength != ANY) sb.append(maxLength)
+                }
+            }
+            return "$sb"
+        }
+
+        private fun canBeOmitted() = (minLength == ANY && maxLength == ANY)
+        fun isSpecified() = (minLength != DEFAULT_PATH_LENGTH || maxLength != DEFAULT_PATH_LENGTH)
+    }
 }

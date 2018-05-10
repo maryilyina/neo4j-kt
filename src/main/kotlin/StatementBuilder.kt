@@ -18,14 +18,14 @@ open class StatementBuilder {
     infix fun Relationship.between(node: Node) = this.from(node).apply { isDirected = false }
     infix fun Pattern.and(node: Node)          = to(node).apply { isDirected = false }
 
-    operator fun Relationship.get(lenRange: IntRange) = copy().apply {
-        minHops = lenRange.start
-        maxHops = lenRange.endInclusive
+    operator fun Relationship.get(range: IntRange) = copy().apply {
+        setMinLength(range.start)
+        setMaxLength(range.endInclusive)
     }
 
     operator fun Relationship.get(len: Int) = copy().apply {
-        minHops = len
-        maxHops = len
+        setMinLength(len)
+        setMaxLength(len)
     }
 
     infix fun Int.from(len: Int) = len..this
