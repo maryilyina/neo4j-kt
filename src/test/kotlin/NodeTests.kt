@@ -1,30 +1,29 @@
 class NodeTests {
     fun perform() {
-        println("NODE TESTS")
+        println("------------------NODE TESTS------------------")
 
-        val req0 = create {
-            + node(label="Cat"){
-                "type" value "home"
-            }
-        }
-        println(req0)
+        var node = node("cat") {}
+        DSLTest("Named", node, "(cat)")
 
-        val alena = node("a", "Alena") {
-            "name" value "Alena"
-            "age" value 20
-        }
 
-        val boris = node("a", "Boris") {
-            "name" value "Boris"
-            "age" value 21
-        }
-        val req1 = create {
-            + alena
-            + boris
-        }
-        println(req1)
+        node = node(label="Human") {}
+        DSLTest("Labeled", node, "(:Human)")
 
-        val req2 = create {
+
+        node = node {
+            "name" value "Andres"
+            "sport" value "Brazilian Ju-Jitsu"
+        }
+        DSLTest("Parametrised", node, "({name: 'Andres', sport: 'Brazilian Ju-Jitsu'})")
+
+
+        node = node("cat", "Cat"){
+            "livesAt" value "home"
+        }
+        DSLTest("FullyDescribed", node.toString(), "(cat:Cat {livesAt: 'home'})")
+
+
+        var req = create {
             + node("p", "Person") {
                 for (i in 1..3)
                     "child$i" value i
@@ -32,24 +31,38 @@ class NodeTests {
                 "age" value 1
                 "hero" value true
             }
-            + node("w", "Person") {}
         }
+        DSLTest("CreateNode", req, "CREATE (p:Person " +
+                "{ child1: 1, child2: 2, child3: 3, name: 'Alex', age: 1, hero: true } )")
 
-        println(req2)
 
-        class Restaurant(val name: String, val food: String, val cuisine: String)
-        val rest = Restaurant("Harakiri", "Sushi", "Japanese")
 
-        val req3 = create {
+        val alena = node("a", "Alena") {
+            "name" value "Alena"
+        }
+        val boris = node("b", "Boris") {
+            "name" value "Boris"
+        }
+        req = create {
+            + alena
+            + boris
+        }
+        DSLTest("CreateMultipleNodes", req, "CREATE (a:Alena{name:'Alena'}),  (b:Boris{name:'Boris'})")
+
+
+
+        class Restaurant(val name: String, val food: String, val workers: Map<String, Int>)
+        val rest = Restaurant("Harakiri", "Sushi", mapOf("chefs" to 1, "cooks" to 10, "waiters" to 70))
+
+        req = create {
             + node("rest", "Restaurant") {
                 "name" value rest.name
                 "food" value rest.food
-                "cuisine" value rest.cuisine
+                for ((k, v) in rest.workers)
+                    k value v
             }
         }
-
-        println(req3)
-
-        println()
+        DSLTest("CreateForClass", req, "CREATE (rest:Restaurant { name:'Harakiri', food: 'Sushi', " +
+                "chefs: 1, cooks: 10, waiters: 70})")
     }
 }

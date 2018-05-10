@@ -7,16 +7,15 @@ class Example(uri: String, user: String, pwd: String) : AutoCloseable {
         val session = driver.session()
         try {
             val greeting = session.writeTransaction { tx ->
-                val result = tx.run(
-                        create {
-                            node {
-                                "name" value "Alex"
-                                "age" value 1
-                                "hero" value true
-                                "message" value message
-                            }
-                    }.toString()
-                )
+                val query = create {
+                    node {
+                        "name" value "Alex"
+                        "age" value 1
+                        "hero" value true
+                        "message" value message
+                    }
+                }.toString()
+                val result = tx.run(query)
                 result.single().get(0).toString()
             }
             print(greeting)

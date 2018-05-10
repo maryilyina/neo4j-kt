@@ -1,18 +1,18 @@
 class MultipleClausesTests {
     fun perform() {
-        println("MULTIPLE CLAUSES IN STATEMENT TESTS")
+        println("------------------MULTIPLE CLAUSES IN STATEMENT TESTS------------------")
 
         val a = node("a", "Person") {}
         val b = node("b", "Person") {}
-        val req1 = match { + a } and create { + b }
-        println(req1)
-        println()
+        var req = match { + a } and create { + b }
+        DSLTest("UniteWithAnd", req, "MATCH (a:Person)\nCREATE(b:Person)")
 
-        val req2 = match { + a } + create { + b }
-        println(req2)
-        println()
 
-        val req3 = match {
+        req = match { + a } + create { + b }
+        DSLTest("UniteWithPlus", req, "MATCH (a:Person)\nCREATE(b:Person)")
+
+
+        req= match {
             + a
             + b
         } where {
@@ -21,16 +21,17 @@ class MultipleClausesTests {
                 node("a") {} has relationship("r" , "RELTYPE") {} to node("b") {}
         } returns "type(r)"
 
-        println(req3)
-        println()
+        DSLTest("WithWhereAndReturn", req, "MATCH (a:Person), (b:Person)\nWHERE n.age < 30" +
+                "\nCREATE(a)-[r:RELTYPE]->(b)\nRETURN type(r)")
 
-        val req4 = match {
+
+        req = match {
             + node("n") {}
         } where {
             + ("n.age" lessThan 30)
         } returns "n.name" orderBy "n.name" limit 3
 
-        println(req4)
-        println()
+        DSLTest("ReturnWithOrderAndLimit", req, "MATCH (n) \nWHERE n.age < 30" +
+                "\nRETURN n.name \nORDER BY n.name \nLIMIT 3")
     }
 }

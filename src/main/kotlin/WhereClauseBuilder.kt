@@ -25,8 +25,8 @@ class WhereClauseBuilder {
     infix fun String.notEqualTo(value: Any)           = "$this <> $value"
     infix fun String.lessThan(value: Any)             = "$this < $value"
     infix fun String.greaterThan(value: Any)          = "$this > $value"
-    infix fun String.lessThanOrEqualTo(value: Any)    = "$this <= $value"
-    infix fun String.greaterThanOrEqualTo(value: Any) = "$this >= $value"
+    infix fun String.lessOrEqualTo(value: Any)    = "$this <= $value"
+    infix fun String.greaterOrEqualTo(value: Any) = "$this >= $value"
     infix fun String.isNull(value: Any)               = "$this IS NULL $value"
     infix fun String.isNotNull(value: Any)            = "$this IS NOT NULL $value"
 
