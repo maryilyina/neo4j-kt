@@ -13,7 +13,7 @@
  *
  * If relationship is empty, pattern turns into "(nodeFrom)-->(nodeTo)"
  *
- * Can also be named for later use: "alias = (a)-[r]->(b)"
+ * Can also be named for later use: "alias = (a)-[rel]->(b)"
  */
 class Pattern(private val relationship: Relationship,
               var nodeFrom:  Node? = null, var nodeTo: Node? = null) {
