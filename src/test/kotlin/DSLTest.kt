@@ -3,4 +3,5 @@ fun main(args: Array<String>) {
     RelationshipTests().perform()
     DifferentTypesTests().perform()
     MultipleClausesTests().perform()
+    WhereClauseTests().perform()
 }

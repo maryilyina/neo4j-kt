@@ -1,6 +1,6 @@
 class Relationship(private val name: String?, private val type: String?,
                    private val attrs: MutableMap<String, Any>) {
-    companion object {
+    companion object Ranges {
         const val DEFAULT_PATH_LENGTH = 1
         const val ANY = -1
     }

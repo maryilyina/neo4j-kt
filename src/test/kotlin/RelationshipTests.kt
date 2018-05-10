@@ -1,4 +1,4 @@
-import Relationship.Companion.ANY
+import Relationship.Ranges.ANY
 
 class RelationshipTests {
     fun perform() {
