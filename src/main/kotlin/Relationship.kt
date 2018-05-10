@@ -1,3 +1,9 @@
+/**
+ * Query relationship
+ *
+ * Represents relationship itself without nodes
+ * in Cypher style: "[name:type *minLen..maxLen { attr1: val1, attr2: val2, .. } ]"
+ */
 class Relationship(private val name: String?, private val type: String?,
                    private val attrs: MutableMap<String, Any>) {
     fun copy() = Relationship(name, type, attrs)
@@ -10,7 +16,7 @@ class Relationship(private val name: String?, private val type: String?,
         val sb = StringBuilder()
         if (!name.isNullOrEmpty()) sb.append(name)
         if (!type.isNullOrEmpty()) sb.append(":$type")
-        if (pathLength.isSpecified()) sb.append("*$pathLength")
+        if (pathLength.isNotDefault()) sb.append("*$pathLength")
 
         if (!attrs.isEmpty()) {
             sb.append(" {")
@@ -21,17 +27,27 @@ class Relationship(private val name: String?, private val type: String?,
         return if (!sb.isEmpty()) "[$sb]" else ""
     }
 
+    /**
+     * Util class for relationship length
+     *
+     * Default length bound is 1 both for min and max
+     * Default length bounds don't need to be printed at all
+     * Infinite bounds can be omitted with ".."
+     */
     class PathLength {
         companion object Ranges {
             const val DEFAULT_PATH_LENGTH = 1
-            const val ANY = -1
+            const val ANY = -1 /* means infinite bound value */
         }
         var minLength = DEFAULT_PATH_LENGTH
         var maxLength = DEFAULT_PATH_LENGTH
 
+        fun isNotDefault() = (minLength != DEFAULT_PATH_LENGTH || maxLength != DEFAULT_PATH_LENGTH)
+        private fun isInfinite() = (minLength == ANY && maxLength == ANY)
+
         override fun toString(): String {
             val sb = StringBuilder()
-            if (!canBeOmitted()) {
+            if (!isInfinite()) {
                 if (minLength == maxLength) sb.append(minLength)
                 else {
                     if (minLength != DEFAULT_PATH_LENGTH && minLength != ANY) sb.append(minLength)
@@ -41,8 +57,5 @@ class Relationship(private val name: String?, private val type: String?,
             }
             return "$sb"
         }
-
-        private fun canBeOmitted() = (minLength == ANY && maxLength == ANY)
-        fun isSpecified() = (minLength != DEFAULT_PATH_LENGTH || maxLength != DEFAULT_PATH_LENGTH)
     }
 }

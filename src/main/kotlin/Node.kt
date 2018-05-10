@@ -1,3 +1,8 @@
+/**
+ * Query node
+ *
+ * Represents node in Cypher style: "(name:label { attr1: val1, attr2: val2, .. } )"
+ */
 class Node(private val name: String?, private val label: String?,
            private val attrs: MutableMap<String, Any>) {
 

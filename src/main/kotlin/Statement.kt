@@ -1,3 +1,16 @@
+/**
+ * Basic unit of query
+ *
+ * Consists of described patterns and individual nodes
+ * Represented as:
+ *          "STATEMENT_NAME node1, node2, .., pattern1, pattern2, ..
+ *           WHERE whereClause
+ *           RETURN returnValue
+ *           ORDER BY orderStyle
+ *           LIMIT returnLimit"
+ *
+ *  Base query stores all statements already described, except this one
+ */
 abstract class Statement(private val nodes: MutableList<Node>,
                          private val patterns: MutableList<Pattern>) {
     abstract val statementName: String
@@ -36,6 +49,7 @@ abstract class Statement(private val nodes: MutableList<Node>,
     fun setReturnLimit(s: Any)     { returnLimit = s }
 
     fun setBaseQuery(query: Query) { baseQuery = query }
+    /* Enlarges baseQuery by current statement and returns it */
     fun getFullQuery() = baseQuery.append(this)
 }
 

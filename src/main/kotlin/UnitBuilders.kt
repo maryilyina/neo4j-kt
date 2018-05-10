@@ -1,3 +1,6 @@
+/**
+ * Abstract builder for nodes or relationships
+ */
 abstract class UnitBuilder<out T> {
     protected val data = mutableMapOf<String, Any>()
     abstract fun build(name: String?, label: String?) : T
@@ -13,6 +16,9 @@ class RelationshipBuilder : UnitBuilder<Relationship>() {
     override fun build(name: String?, type: String?) = Relationship(name, type, data)
 }
 
+/**
+ * Functions for executing code in UnitBuilder context
+ */
 fun relationship(name: String? = null, type: String? = null, block: RelationshipBuilder.() -> Unit): Relationship {
     val b = RelationshipBuilder()
     b.block()
