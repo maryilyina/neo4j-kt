@@ -23,8 +23,13 @@ abstract class Statement(private val nodes: MutableList<Node>,
     }
 }
 
+/* Combining multiple clauses in one query*/
 operator fun Statement.plus(other: Statement) = other.also { it.baseQuery = baseQuery.append(this) }
 infix fun Statement.and(other: Statement) = this + other
 
-infix fun Statement.returns(what: String) : Statement = this.apply { baseQuery.returnValue = what }
+/* Additional functions */
+infix fun Statement.returns(what: String) : Statement = this.apply { baseQuery.setReturnValue(what) }
 
+infix fun Statement.limit(howMany: Any) : Statement = this.apply { baseQuery.setReturnLimit(howMany) }
+
+infix fun Statement.orderBy(how: String) : Statement = this.apply { baseQuery.setOrderStyle(how) }

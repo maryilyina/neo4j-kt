@@ -35,5 +35,14 @@ class MultipleClausesTests {
 
         println(req3)
         println()
+
+        val req4 = match {
+            + node("n") {}
+        } where {
+            + ("n.age" lessThan 30)
+        } returns "n.name" orderBy "n.name" limit 3
+
+        println(req4)
+        println()
     }
 }
