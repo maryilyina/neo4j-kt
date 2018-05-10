@@ -1,21 +1,21 @@
 import org.neo4j.driver.v1.AuthTokens
 import org.neo4j.driver.v1.GraphDatabase
 
-class Example(uri: String, user: String, pwd: String) : AutoCloseable {
+class Neo4jWithKtExample(uri: String, user: String, pwd: String) : AutoCloseable {
     private val driver = GraphDatabase.driver(uri, AuthTokens.basic(user, pwd))
     fun greeting(message: String) {
         val session = driver.session()
         try {
             val greeting = session.writeTransaction { tx ->
                 val query = create {
-                    node {
+                    + node("alex") {
                         "name" value "Alex"
-                        "age" value 1
+                        "age" value 20
                         "hero" value true
                         "message" value message
                     }
-                }.toString()
-                val result = tx.run(query)
+                } returns "alex.message"
+                val result = tx.run(query.toString())
                 result.single().get(0).toString()
             }
             print(greeting)
@@ -26,8 +26,8 @@ class Example(uri: String, user: String, pwd: String) : AutoCloseable {
 
 fun main(args: Array<String>) {
     try {
-        val ex = Example("bolt://localhost:7687", "neo4j", "password")
-        ex.greeting("hohoh")
+        val ex = Neo4jWithKtExample("bolt://localhost:7687", "neo4j", "password")
+        ex.greeting("Hello!")
     } catch (e: Exception) {
         print(e.message)
     }
