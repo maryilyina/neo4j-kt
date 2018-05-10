@@ -1,4 +1,4 @@
-import Relationship.Ranges.ANY
+import Relationship.PathLength.Ranges.ANY
 
 class RelationshipTests {
     fun perform() {
