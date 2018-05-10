@@ -4,23 +4,11 @@ class MultipleClausesTests {
 
         val a = node("a", "Person") {}
         val b = node("b", "Person") {}
-        val req1 = match {
-            + a
-            + b
-        } and create {
-            node("a") {} has relationship("r", "RELTYPE") {} to node("b") {}
-        }
-
+        val req1 = match { + a } and create { + b }
         println(req1)
         println()
 
-        val req2 = match {
-            + a
-            + b
-        } + create {
-            node("a") {} has relationship("r", "RELTYPE") {} to node("b") {}
-        }
-
+        val req2 = match { + a } + create { + b }
         println(req2)
         println()
 
@@ -28,7 +16,7 @@ class MultipleClausesTests {
             + a
             + b
         } where {
-            "n.age" lessThan 30
+            + ("n.age" lessThan 30)
         } and create {
                 node("a") {} has relationship("r", "RELTYPE") {} to node("b") {}
         } returns "type(r)"

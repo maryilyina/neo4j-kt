@@ -42,7 +42,3 @@ class WhereClauseBuilder {
     infix fun String.xor(other: String)  = "($this) XOR ($other)"
     fun not(condition: String)  = "NOT ($condition)"
 }
-
-infix fun Statement.where(block: WhereClauseBuilder.() -> Unit)
-        = this.apply { whereClause = WhereClauseBuilder().apply(block).build() }
-

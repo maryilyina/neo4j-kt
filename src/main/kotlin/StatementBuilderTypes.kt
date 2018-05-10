@@ -19,4 +19,8 @@ fun merge(block: MergeStatementBuilder.() -> Unit) = MergeStatementBuilder().app
 class OptionalMatchStatementBuilder : StatementBuilder() {
     fun build() = OptionalMatchStatement(nodes, patterns)
 }
-fun optionalMatch(block: OptionalMatchStatementBuilder.() -> Unit) = OptionalMatchStatementBuilder().apply(block).build()
+fun optionalMatch(block: OptionalMatchStatementBuilder.() -> Unit)
+        = OptionalMatchStatementBuilder().apply(block).build()
+
+infix fun Statement.where(block: WhereClauseBuilder.() -> Unit)
+        = this.apply { setWhereClause(WhereClauseBuilder().apply(block).build()) }

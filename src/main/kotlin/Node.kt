@@ -1,5 +1,5 @@
-class Node(val name: String?, val label: String?,
-           val attrs: MutableMap<String, Any>) {
+class Node(private val name: String?, private val label: String?,
+           private val attrs: MutableMap<String, Any>) {
 
     override fun toString(): String {
         val sb = StringBuilder()
