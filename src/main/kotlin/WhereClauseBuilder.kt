@@ -6,6 +6,7 @@
  *
  * Multiple conditions can be combined using boolean operators
  */
+@QueryContext
 class WhereClauseBuilder {
     private val conditions = mutableListOf<String>()
     fun build() = WhereClause(conditions)
@@ -45,5 +46,6 @@ class WhereClauseBuilder {
 /**
  * Function for executing code in WhereClauseBuilder context
  */
+@QueryContext
 infix fun Statement.where(block: WhereClauseBuilder.() -> Unit)
         = this.apply { setWhereClause(WhereClauseBuilder().apply(block).build()) }
