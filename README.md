@@ -10,16 +10,16 @@ queries to the graph database. Look at the [Neo4j usage example](https://github.
 Describing nodes, relationships and complex queries becomes as easy as a pie:
 ```kotlin
 class Restaurant(val name: String, val food: String, val workers: Map<String, Int>)
-      val rest = Restaurant("Harakiri", "Sushi", mapOf("chefs" to 1, "cooks" to 10, "waiters" to 70))
+val rest = Restaurant("Harakiri", "Sushi", mapOf("chefs" to 1, "cooks" to 10, "waiters" to 70))
 
-      req = create {
-          + node("rest", "Restaurant") {
-              "name" value rest.name
-              "food" value rest.food
-              for ((k, v) in rest.workers)
-                  k value v
-          }
-      }
+req = create {
+    + node("rest", "Restaurant") {
+        "name" value rest.name
+        "food" value rest.food
+        for ((k, v) in rest.workers)
+            k value v
+    }
+}
 ```
 
 Current available functions:
@@ -69,8 +69,8 @@ val req = match {
 5. [WHERE clause](https://github.com/maryilyina/neo4j-kt/blob/master/src/test/kotlin/WhereClauseTests.kt)
 ```kotlin
 val req = match {
-    +node("a") {}
-    +node("b") {}
+    + node("a") {}
+    + node("b") {}
 } where {
     + (("a.age" notEqualTo "b.age") and not(("a.name" contains "K") or ("b.age" greaterThan 2)))
 }
