@@ -1,3 +1,5 @@
+package QueryObjects
+
 /**
  * Basic unit of query
  *
@@ -52,14 +54,3 @@ abstract class Statement(private val nodes: MutableList<Node>,
     /* Enlarges baseQuery by current statement and returns it */
     fun getFullQuery() = baseQuery.append(this)
 }
-
-/* Combining multiple clauses in one query*/
-operator fun Statement.plus(other: Statement) = other.also { it.setBaseQuery(getFullQuery()) }
-infix fun Statement.and(other: Statement) = this + other
-
-/* Additional functions */
-infix fun Statement.returns(what: String) : Statement = this.apply { setReturnValue(what) }
-
-infix fun Statement.limit(howMany: Any) : Statement = this.apply { setReturnLimit(howMany) }
-
-infix fun Statement.orderBy(how: String) : Statement = this.apply { setOrderStyle(how) }

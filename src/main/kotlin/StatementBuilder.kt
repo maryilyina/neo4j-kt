@@ -1,3 +1,7 @@
+import QueryObjects.Node
+import QueryObjects.Relationship
+import QueryObjects.Pattern
+
 @DslMarker
 annotation class QueryContext
 

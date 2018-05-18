@@ -1,5 +1,7 @@
+package QueryObjects
+
 /**
- * Query in Cypher language
+ * QueryObjects.Query in Cypher language
  *
  * Represents a list of described statements to be executed together
  */

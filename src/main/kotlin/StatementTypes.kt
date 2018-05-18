@@ -1,3 +1,7 @@
+import QueryObjects.Node
+import QueryObjects.Statement
+import QueryObjects.Pattern
+
 /**
  * Specific Cypher statement types
  */

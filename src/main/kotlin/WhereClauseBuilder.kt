@@ -1,3 +1,6 @@
+import QueryObjects.Statement
+import QueryObjects.WhereClause
+
 /**
  * DSL builder for describing statement conditions
  *

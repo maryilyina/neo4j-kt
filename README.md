@@ -12,7 +12,7 @@ Describing nodes, relationships and complex queries becomes as easy as a pie:
 class Restaurant(val name: String, val food: String, val workers: Map<String, Int>)
 val rest = Restaurant("Harakiri", "Sushi", mapOf("chefs" to 1, "cooks" to 10, "waiters" to 70))
 
-req = create {
+val req = create {
     + node("rest", "Restaurant") {
         "name" value rest.name
         "food" value rest.food
@@ -37,17 +37,17 @@ val rel = relationship("m", "MARRIED") { "when" value "longAgo" }
 3. Describing patterns with different [length](https://github.com/maryilyina/neo4j-kt/blob/master/src/test/kotlin/RangesTests.kt) and [directions](https://github.com/maryilyina/neo4j-kt/blob/master/src/test/kotlin/DirectionTests.kt)
 ```kotlin
 val req = create {
-    node("me") {} has relationship(type="KNOWS") {} [ANY upTo 2] to node("remoteFriend") {}
+    node("me") has relationship(type="KNOWS") [ANY upTo 2] to node("remoteFriend")
 }
 ```
 
 4. Pattern for [path series](https://github.com/maryilyina/neo4j-kt/blob/master/src/test/kotlin/PathPatternTests.kt)
 ```kotlin
-val acted = relationship(type="ACTED_IN") {}
-val filmed = relationship(type="FILMED") {}
-val actor = node(label="Person") {}
-val movie = node("movie", "Movie") {}
-val hollywood = node("hollywood", "Hollywood") {}
+val acted = relationship(type="ACTED_IN")
+val filmed = relationship(type="FILMED")
+val actor = node(label="Person")
+val movie = node("movie", "Movie")
+val hollywood = node("hollywood", "Hollywood")
 
 val req = create {
     actor has acted to movie which filmed by hollywood
@@ -57,20 +57,20 @@ val req = create {
 4. Combining CREATE, MATCH, MERGE, OPTIONAL MATCH [clauses](https://github.com/maryilyina/neo4j-kt/blob/master/src/test/kotlin/MultipleClausesTests.kt)
 ```kotlin
 val req = match {
-    + node("a", "Person") {}
-    + node("b", "Person") {}
+    + node("a", "Person")
+    + node("b", "Person")
 } where {
     + ("n.age" lessThan 30)
 } and create {
-        node("a") {} has relationship("r" , "RELTYPE") {} to node("b") {}
+        node("a") has relationship("r" , "RELTYPE") to node("b")
 } returns "type(r)"
 ```
 
 5. [WHERE clause](https://github.com/maryilyina/neo4j-kt/blob/master/src/test/kotlin/WhereClauseTests.kt)
 ```kotlin
 val req = match {
-    + node("a") {}
-    + node("b") {}
+    + node("a")
+    + node("b")
 } where {
     + (("a.age" notEqualTo "b.age") and not(("a.name" contains "K") or ("b.age" greaterThan 2)))
 }
@@ -79,7 +79,7 @@ val req = match {
 6. RETURN, ORDER BY, LIMIT [requirements](https://github.com/maryilyina/neo4j-kt/blob/master/src/test/kotlin/MultipleClausesTests.kt)
 ```kotlin
 val req = match {
-    + node("n") {}
+    + node("n")
 } where {
     + ("n.age" lessThan 30)
 } returns "n.name" orderBy "n.name" limit 3

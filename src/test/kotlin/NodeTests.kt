@@ -2,11 +2,11 @@ class NodeTests {
     fun perform() {
         println("------------------NODE TESTS------------------")
 
-        var node = node("cat") {}
+        var node = node("cat")
         DSLTest("Named", node, "(cat)")
 
 
-        node = node(label="Human") {}
+        node = node(label="Human")
         DSLTest("Labeled", node, "(:Human)")
 
 

@@ -1,11 +1,11 @@
-import Relationship.PathLength.Ranges.ANY
+import QueryObjects.Relationship.PathLength.Ranges.ANY
 
 class RangesTests {
     fun perform() {
         println("------------------RANGES TESTS------------------")
-        val c = node("c"){}
-        val d = node("d"){}
-        val rel = relationship(type="KNOWS") {}
+        val c = node("c")
+        val d = node("d")
+        val rel = relationship(type="KNOWS")
 
         var req = create {
             c has rel[2 upTo 4] to d

@@ -1,5 +1,7 @@
+package QueryObjects
+
 /**
- * Query relationship
+ * QueryObjects.Query relationship
  *
  * Represents relationship itself without nodes
  * in Cypher style: "[name:type *minLen..maxLen { attr1: val1, attr2: val2, .. } ]"

@@ -1,5 +1,7 @@
+package QueryObjects
+
 /**
- * Query pattern used in statements
+ * QueryObjects.Query pattern used in statements
  *
  * A specified Cypher pattern to describe the shape of the data you are looking for.
  * Standard one - relationship between two nodes:

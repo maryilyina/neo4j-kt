@@ -1,3 +1,6 @@
+import QueryObjects.Node
+import QueryObjects.Relationship
+
 /**
  * Abstract builder for nodes or relationships
  */
@@ -19,13 +22,13 @@ class RelationshipBuilder : UnitBuilder<Relationship>() {
 /**
  * Functions for executing code in UnitBuilder context
  */
-fun relationship(name: String? = null, type: String? = null, block: RelationshipBuilder.() -> Unit): Relationship {
+fun relationship(name: String? = null, type: String? = null, block: RelationshipBuilder.() -> Unit = {}): Relationship {
     val b = RelationshipBuilder()
     b.block()
     return b.build(name, type)
 }
 
-fun node(name: String? = null, label: String? = null, block: NodeBuilder.() -> Unit) : Node {
+fun node(name: String? = null, label: String? = null, block: NodeBuilder.() -> Unit = {}) : Node {
     val b = NodeBuilder()
     b.block()
     return b.build(name, label)

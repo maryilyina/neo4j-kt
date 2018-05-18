@@ -1,8 +1,8 @@
 class WhereClauseTests {
     fun perform() {
         println("------------------WHERE CLAUSE TESTS------------------")
-        val a = node("a") {}
-        val b = node("b") {}
+        val a = node("a")
+        val b = node("b")
 
         var req = match {
             + a
@@ -24,7 +24,7 @@ class WhereClauseTests {
                 "WHERE NOT (n.name ENDS WITH 's')")
 
 
-        req = match { + node("n"){} } where {
+        req = match { + node("n") } where {
             + ((("n.name" equals "Peter") xor (("n.age" lessThan 30) and ("n.name" equals "Tobias"))) or
                     not(("n.name" equals "Tobias") or ("n.name" equals "Peter")))
         }
